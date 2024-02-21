@@ -1,0 +1,10 @@
+/home/hice1/qwu350/coc-ice-home-data/ISYE6679/proj/main/build/CMakeFiles/edit_cache.dir
+/home/hice1/qwu350/coc-ice-home-data/ISYE6679/proj/main/build/CMakeFiles/rebuild_cache.dir
+/home/hice1/qwu350/coc-ice-home-data/ISYE6679/proj/main/build/include/CMakeFiles/edit_cache.dir
+/home/hice1/qwu350/coc-ice-home-data/ISYE6679/proj/main/build/include/CMakeFiles/rebuild_cache.dir
+/home/hice1/qwu350/coc-ice-home-data/ISYE6679/proj/main/build/src/CMakeFiles/src.dir
+/home/hice1/qwu350/coc-ice-home-data/ISYE6679/proj/main/build/src/CMakeFiles/edit_cache.dir
+/home/hice1/qwu350/coc-ice-home-data/ISYE6679/proj/main/build/src/CMakeFiles/rebuild_cache.dir
+/home/hice1/qwu350/coc-ice-home-data/ISYE6679/proj/main/build/test/CMakeFiles/testExecutable.dir
+/home/hice1/qwu350/coc-ice-home-data/ISYE6679/proj/main/build/test/CMakeFiles/edit_cache.dir
+/home/hice1/qwu350/coc-ice-home-data/ISYE6679/proj/main/build/test/CMakeFiles/rebuild_cache.dir

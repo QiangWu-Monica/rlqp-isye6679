@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#PBS -N isye6679-osqp-test-basic-qp
+#PBS -l nodes=1:ppn:4
+#PBS -l walltime=15:00
+#PBS -q pace-ice
+#PBS -j oe
+#PBS -o osqp_test_basic.out
+
+module purge
+module load python py-pip
+
+cd ISYE6679/proj/main/test/basic_qp
+pip install numpy
+pip install scipy
+python generate_problem.py

@@ -1,0 +1,87 @@
+---------------------------------------
+Begin Slurm Prolog: Feb-20-2024 21:49:19
+Job ID:    283833
+User ID:   qwu350
+Account:   cse
+Job name:  cuda.sbatch
+Partition: pace-gpu
+---------------------------------------
+-- The CUDA compiler identification is NVIDIA 12.1.105
+-- Detecting CUDA compiler ABI info
+-- Detecting CUDA compiler ABI info - done
+-- Check for working CUDA compiler: /usr/local/pace-apps/spack/packages/linux-rhel7-x86_64/gcc-4.8.5/cuda-12.1.1-6oacj6llkpm7iikvkdenuozwwfwctxxp/bin/nvcc - skipped
+-- Detecting CUDA compile features
+-- Detecting CUDA compile features - done
+-- Configuring done
+CMake Warning (dev) in src/CMakeLists.txt:
+  Policy CMP0104 is not set: CMAKE_CUDA_ARCHITECTURES now detected for NVCC,
+  empty CUDA_ARCHITECTURES not allowed.  Run "cmake --help-policy CMP0104"
+  for policy details.  Use the cmake_policy command to set the policy and
+  suppress this warning.
+
+  CUDA_ARCHITECTURES is empty for target "src".
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) in src/CMakeLists.txt:
+  Policy CMP0104 is not set: CMAKE_CUDA_ARCHITECTURES now detected for NVCC,
+  empty CUDA_ARCHITECTURES not allowed.  Run "cmake --help-policy CMP0104"
+  for policy details.  Use the cmake_policy command to set the policy and
+  suppress this warning.
+
+  CUDA_ARCHITECTURES is empty for target "src".
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) in test/CMakeLists.txt:
+  Policy CMP0104 is not set: CMAKE_CUDA_ARCHITECTURES now detected for NVCC,
+  empty CUDA_ARCHITECTURES not allowed.  Run "cmake --help-policy CMP0104"
+  for policy details.  Use the cmake_policy command to set the policy and
+  suppress this warning.
+
+  CUDA_ARCHITECTURES is empty for target "testExecutable".
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Generating done
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_CXX_COMPILER
+    ENABLE_GPU
+
+
+-- Build files have been written to: /home/hice1/qwu350/coc-ice-home-data/ISYE6679/proj/main/build
+[ 25%] Building CUDA object src/CMakeFiles/src.dir/kernels.cu.o
+[ 50%] Building CUDA object src/CMakeFiles/src.dir/problem.cu.o
+/home/hice1/qwu350/coc-ice-home-data/ISYE6679/proj/main/src/problem.cu(140): warning #549-D: variable "problem_new" is used before its value is set
+      cuda_allocate(problem_new);
+                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/home/hice1/qwu350/coc-ice-home-data/ISYE6679/proj/main/src/problem.cu(140): warning #549-D: variable "problem_new" is used before its value is set
+      cuda_allocate(problem_new);
+                    ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+[ 75%] Linking CUDA static library libsrc.a
+[ 75%] Built target src
+[100%] Linking CUDA executable testExecutable
+/lib/../lib64/crt1.o: In function `_start':
+(.text+0x20): undefined reference to `main'
+collect2: error: ld returned 1 exit status
+gmake[2]: *** [test/testExecutable] Error 1
+gmake[1]: *** [test/CMakeFiles/testExecutable.dir/all] Error 2
+gmake: *** [all] Error 2
+/var/lib/slurm/slurmd/job283833/slurm_script: line 22: 66703 Segmentation fault      (core dumped) ./my_osqp
+---------------------------------------
+Begin Slurm Epilog: Feb-20-2024 21:49:31
+Job ID:        283833
+Array Job ID:  _4294967294
+User ID:       qwu350
+Account:       cse
+Job name:      cuda.sbatch
+Resources:     cpu=2,gres/gpu:v100=2,mem=32G,node=2
+Rsrc Used:     cput=00:00:24,vmem=134944K,walltime=00:00:12,mem=0,energy_used=0
+Partition:     pace-gpu
+Nodes:         atl1-1-01-002-7-0,atl1-1-01-002-8-0
+---------------------------------------

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsrc.a CMakeFiles/src.dir/kernels.cu.o CMakeFiles/src.dir/problem.cu.o
+/usr/bin/ranlib libsrc.a
