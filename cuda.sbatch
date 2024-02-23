@@ -17,6 +17,8 @@ cd ~//coc-ice-home-data/ISYE6679/proj/main/
 # Load the cuda module so we can find the run-time libraries
 module load cuda cmake
 
-./build_cuda.sh
+# ./build_cuda.sh
+make clean
+make
 # Run the code
 ./my_osqp
