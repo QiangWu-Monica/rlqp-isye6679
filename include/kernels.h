@@ -5,7 +5,9 @@
 #include <cstdint>
 #include "problem.h"
 
-__global__ void vecAdd(double *a, double *b, double *c, int n);
+__global__ void vecminus(double* vec, double* minvec, int size);
+
+__global__ void process_xv(double sigma, double rho, double *x, double *y, double *z, double *q, int n, int m, double *x_v);
 
 __global__ 
 void osqp_kernel(double const *__restrict__ alpha, 
@@ -18,8 +20,8 @@ void osqp_kernel(double const *__restrict__ alpha,
         double *__restrict__ C);
 
 __global__ 
-void concatenateMatricesKernel(Problem* prob,
-                        int m, int n, double rho);
+void concatenateMatricesKernel(double* sol_con, double* P, double* A,
+                        int m, int n, double rho, double sigma);
 
 __global__ 
 void concatenateVectorsKernel(Problem* prob,
