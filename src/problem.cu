@@ -95,6 +95,8 @@ void Problem::checknorm(cublasHandle_t cublas_handle, Problem *problem_new) {
     block_size.x = 16;
     block_size.y = 16;
     shmem_size = 1;
+    cuErrChk(cudaMalloc((void **)&(problem_new->solution.norm1_vec), sizeof(double)*data.m));
+    cuErrChk(cudaMalloc((void **)&(problem_new->solution.norm2_vec), sizeof(double)*data.n));
 
     cuErrChk(cublasDgemv(cublas_handle, CUBLAS_OP_N, data.m, data.n, &scalar, problem_new->data.A.values, data.m, problem_new->solution.x, 1, &scalar, problem_new->solution.norm1_vec, 1));
     vecminus <<< grid_size, block_size, shmem_size >>> (problem_new->solution.norm1_vec, problem_new->solution.z, data.m);
@@ -104,7 +106,7 @@ void Problem::checknorm(cublasHandle_t cublas_handle, Problem *problem_new) {
     cuErrChk(cublasDgemv(cublas_handle, CUBLAS_OP_T, data.n, data.m, &scalar, problem_new->data.A.values, data.n, problem_new->solution.y, 1, &scalar, problem_new->solution.norm2_vec, 1));
     cuErrChk(cublasDgemv(cublas_handle, CUBLAS_OP_N, data.n, data.n, &scalar, problem_new->data.P.values, data.n, problem_new->solution.x, 1, &scalar, problem_new->solution.norm2_vec, 1));
     cuErrChk(cublasDnrm2(cublas_handle, data.n, problem_new->solution.norm2_vec, 1, solution.norm2));
-    // norm2 = norm(P*x+q+A*y)
+    // norm2 = norm(P*x+q+A^T*y)
 };
 
 void Problem::cuda_free(Problem *problem_new) {
@@ -182,12 +184,15 @@ void Problem::cu_all_osqp() {
     int iters = 1;
 
     while (iters < setting.max_iter && (*solution.norm1 >= setting.eps_prim || *solution.norm2 >= setting.eps_dual)) {
+        cout << "Norm1: " << *solution.norm1 << endl;
+        cout << "Norm2: " << *solution.norm2 << endl;
 
         process_xv <<< grid_size, block_size, shmem_size >>> (parameter.sigma, parameter.rho, problem_new->solution.x, problem_new->solution.y, problem_new->solution.z, problem_new->data.q, data.n, data.m, problem_new->solution.x_v);
         // Solve the linear system [[P+rho*I, A^T], [A, -(1/rho)*I]]*x_v = [rho*x-q, z-(1/rho)*y];
         cuErrChk(cudaDeviceSynchronize());
         cuErrChk(cusolverDnDgetrs(solver_handle, CUBLAS_OP_N, size, 1, problem_new->data.sol_con.values, size, devIpiv, problem_new->solution.x_v, size, d_info));
         cuErrChk(cudaDeviceSynchronize());
+        cuErrChk(cudaMemcpy(solution.x_v, problem_new->solution.x_v, sizeof(double)*(data.m+data.n), cudaMemcpyDeviceToHost));
 
         // z_tilde = z + (1/rho) * (vecAdd <<< grid_size, block_size, shmem_size  >>> (v, -y));
         // x_new = alpha*x+(1-alpha) * x;
@@ -225,6 +230,8 @@ void Problem::cu_all_osqp() {
         checknorm(cublas_handle, problem_new);
         iters++;
     }
+
+    cout << "Iter: " << iters << endl;
 
     cuErrChk(cudaMemcpy(solution.x, problem_new->solution.x, sizeof(double)*data.n, cudaMemcpyDeviceToHost));
     cuErrChk(cudaMemcpy(solution.y, problem_new->solution.y, sizeof(double)*data.m, cudaMemcpyDeviceToHost));

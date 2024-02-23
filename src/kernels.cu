@@ -106,10 +106,10 @@ __global__ void update(double *x, double *y, double *z, double *x_v, double *z_t
         } else if (z_tilde[idx] + (1/rho)*y[idx] > u[idx]) {
                 z[idx] = u[idx];
         } else {
-                z[idx] = z_tilde[idx];
+                z[idx] = z_tilde[idx] + (1/rho)*y[idx];
         }
 
-        deltay[idx] = (1/rho) * (z_tilde[idx] - z[idx]);
+        deltay[idx] = rho * (z_tilde[idx] - z[idx]);
         y[idx] = y[idx] + deltay[idx];
 
         // Atomic add to accumulate the result
